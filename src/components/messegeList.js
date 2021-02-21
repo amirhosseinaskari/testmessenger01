@@ -20,9 +20,10 @@ function MessegeList(props){
                </a>
             </div>
        </div>
+       <div></div>
        <div className="searchMessege">
            <SearchMessege />
-       </div>
+       </div> 
         <ul>
             {
                 props.messegeList.map((item, index) =>
