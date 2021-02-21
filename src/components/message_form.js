@@ -1,25 +1,25 @@
 import {EmojiSmile, Paperclip} from 'react-bootstrap-icons';
 import {useState, useRef} from 'react';
-function  MessegeForm(props) {
+function  MessageForm(props) {
     const [isTyping, setIsTyping] = useState(false)
-    const textMessegeInput = useRef(null)
-    const textMessegeOnChanged = (e) => {
-        if(textMessegeInput.current.value === ''){
+    const textMessageInput = useRef(null)
+    const textMessageOnChanged = (e) => {
+        if(textMessageInput.current.value === ''){
             setIsTyping(false);
             return;
         }
         setIsTyping(true);
     };
     return (<>
-        <div className="formMessegeContainer">
+        <div className="formMessageContainer">
             <div className="emoji">
                 <EmojiSmile size={30} />
             </div>
             <div className="attachment">
                 <Paperclip size={30} />
             </div>
-            <form className="textMessegeForm">
-                <input ref={textMessegeInput} type="text" placeholder="write your messege ..." onChange={textMessegeOnChanged} />
+            <form className="textMessageForm">
+                <input ref={textMessageInput} type="text" placeholder="write your message ..." onChange={textMessageOnChanged} />
                  {isTyping ? <button>Send</button> :null}
             </form>
             <div className="voiceButtonContainer">
@@ -29,4 +29,4 @@ function  MessegeForm(props) {
     </>);
 }
 
-export default MessegeForm;
+export default MessageForm;
