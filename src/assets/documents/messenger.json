@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "1866b162-1bfe-49ed-b0b5-843c92e439a1",
+		"name": "Instant Messaging Platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Register User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"41da92dd-8336-447a-b372-4cb236501120\",\n    \"name\": \"Sina 2\",\n    \"avatar\": \"/a/b/c.jpg\",\n    \"bio\": \"This is my bio!\",\n    \"token\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"41da92dd-8336-447a-b372-4cb236501121\",\n    \"name\": \"Sina Ebrahimnejad\",\n    \"avatar\": \"/a/b/d.jpg\",\n    \"bio\": \"This is my bio!\",\n    \"token\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/update-user-info",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"update-user-info"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User Contacts",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"41da92dd-8336-447a-b372-4cb236501121\",\n    \"add_contacts\": [\"41da92dd-8336-447a-b372-4cb236501120\"],\n    \"del_contacts\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/update-user-contacts",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"update-user-contacts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Activity",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"41da92dd-8336-447a-b372-4cb236501121\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/get-user-activity",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"get-user-activity"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Group",
+					"item": [
+						{
+							"name": "Create Group",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"grp_41da92dd-8336-447a-b372-4cb236501212\",\n    \"name\": \"My Group\",\n    \"bio\": \"This is group bio\",\n    \"owner\": \"41da92dd-8336-447a-b372-4cb236501120\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/create-group",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"create-group"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Group",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"grp_41da92dd-8336-447a-b372-4cb236501212\",\n    \"name\": \"My Groupddd\",\n    \"bio\": \"This is grwwoup bio\",\n    \"owner\": \"41da92dd-8336-447a-b372-4cb236501121\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/update-group",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"update-group"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Group Subscribers",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"grp_41da92dd-8336-447a-b372-4cb236501212\",\n    \"add_sub\": [\"f9dfa35d-f896-446e-b199-3c07948f55ef\", \"41da92dd-8336-447a-b372-4cb236501120\"],\n    \"del_sub\": [\"41da92dd-8336-447a-b372-4cb236501121\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/update-group-subscribers",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"update-group-subscribers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Suspend Group",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"uuid\": \"grp_41da92dd-8336-447a-b372-4cb236501212\"  \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/suspend-group",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"suspend-group"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notification",
+					"item": []
+				}
+			]
+		}
+	]
+}

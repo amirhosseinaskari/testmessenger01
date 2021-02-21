@@ -1,0 +1,113 @@
+/*--Messege List--*/
+#messegeList{
+    ul{
+        list-style: none;
+        margin:0;
+        padding:0;
+
+    }
+}
+/*--User info (bar at the top of the messege list)--*/
+.userInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:10px 20px;
+    border-bottom: 1px solid rgb(230, 228, 228);
+    .avatarContainer{
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+    }
+
+    .operation {
+        display: flex;
+        align-items: center;
+        a:last-child{
+            margin-left:20px;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+        }
+    }
+}
+/*--search messege form--*/
+.searchForm{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    height: 20px;
+    margin:10px;
+    padding:10px;
+    background-color: white;
+    border-radius: 20px;
+    input{
+        outline: none;
+        border:none;
+        flex-grow: 1;
+        &:focus{
+            outline: none;
+        }
+    }
+    button{
+        outline: none;
+        background-color: white;
+        flex-grow: 0;
+        border:none;
+    }
+}
+.messegeListItem{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding:10px 20px;
+    border-bottom: 1px solid gray;
+    cursor: pointer;
+    &:hover{
+        background-color: rgb(22, 22, 22);
+    }
+    .messegerAvatarContainer{
+        margin-right:20px;
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        
+    }
+    .messegerInfo{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        .name {
+            font-weight: bold;
+            font-size: 18px;
+            color:white;
+        }
+    
+        .lastChat {
+            font-size: 14px;
+            color:gray;
+        }
+    
+        .unreadMessegeCount{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            float: right;
+            width:12px;
+            height:12px;
+            padding:5px;
+            background-color:rgb(84, 132, 187);
+            color:rgb(255, 255, 255);
+            font-weight: bold;
+            border-radius: 50%;
+           
+        }
+    }
+    
+}

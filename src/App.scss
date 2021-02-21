@@ -1,0 +1,23 @@
+.App{
+  display: flex;
+  font-family: Arial, Helvetica, sans-serif;
+  #messegeList {
+    flex-grow:1;
+    flex-shrink:0;
+    width: 400px;
+    max-width: 100%;
+    min-height: 100vh;
+    background-color:black;
+
+  }
+  
+  #messegeBox{
+    position: relative;
+    flex-grow:1;
+    flex-shrink: 1;
+    width: 100%;
+    background-color: #e6e6e6;
+  }
+}
+
+

@@ -1,0 +1,40 @@
+.formMessegeContainer{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    border-top: 1px solid rgb(73, 73, 73);
+    .attachment{
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    .textMessegeForm{
+        display: flex;
+        flex-grow: 1;
+        input{
+            appearance: none;
+            flex-grow: 1;
+            height: 30px;
+            outline: none;
+            border: 1px solid rgb(151, 151, 151);
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 18px;
+            &:focus{
+                outline: none;
+            }
+        }
+        button {
+            font-size: 20px;
+            margin-left: 10px;
+            cursor:pointer;
+        }
+    }
+}
