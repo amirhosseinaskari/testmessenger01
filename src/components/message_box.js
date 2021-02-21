@@ -1,4 +1,5 @@
 import MessageForm from './message_form'
+import ChatroomBody from './chatroom_body';
 import '../assets/css/messageBox.scss';
 import {connect} from 'react-redux'
 import {store} from '../store/store'
@@ -9,13 +10,16 @@ import {store} from '../store/store'
  */
 function MessageBox(props){
     const chatStatus = store.getState().entities.chats.chatStatus;
-  
+    
    
    const result = (chatStatus) => { switch (chatStatus) {
         case 1:
             return <div className="emptyMessageBox">Messages are loading ...</div>
         case 2:
-            return <MessageForm />
+            return <> 
+                        <ChatroomBody userId={props.user.userId} />
+                        <MessageForm />
+                   </> 
         case 3:
             return <div className="emptyMessageBox">Loading Messages is Failed</div>
         default:

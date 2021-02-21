@@ -17,7 +17,10 @@ function MessageListItem(props){
         if(currentChatId === props.chatId){
             return;
         }
+        //change chatroom status to pending and show the status on message box (chatroom)
         store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 1}));
+
+        //fetch api chat inforamtion by chat id 
         store.dispatch(chatReducer.actions.chatSelected({
             chatInfo: {
               avatar: '',
@@ -45,6 +48,9 @@ function MessageListItem(props){
                         <div className="name">{props.name}</div>
                         <div className="lastChat">
                             {props.lastMessage.length > 30 ? String.substr(0,30) + '...' : props.lastMessage}
+                        </div>
+                        <div className="lastMessageDate">
+                            {props.lastMessageDate}
                         </div>
                     </div>
                     {props.unreadMessageCount > 0 ?  

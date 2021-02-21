@@ -5,21 +5,27 @@ import user_avatar from './assets/images/user_avatar.jpg';
 import MessageBox from './components/message_box';
 import ChatList from './components/chatList';
 import {store} from './store/store';
-import Provider from 'react-redux/lib/components/Provider';
+import {Provider} from 'react-redux';
 import { useState, useEffect } from 'react';
 import Splash from './components/splash';
+import chatReducer from './reducers/chats';
 function App() {
-  const [user, setUserState] = useState(null);
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    setTimeout(() => {
-      setUserState({
+    if(user){
+      return;
+    }
+    setTimeout(async () => {
+      setUser({
         uuid:"123-456-789",
         avatar:user_avatar,
         name: "AmirHossein Askari",
         bio: "this is bio"
       });
     }, 2000);
+   
   }, [user])
+ 
   const sampleMessageList = 
     [{
       chat: "abc-ddd-abc",
@@ -32,13 +38,13 @@ function App() {
         id: "Message-1",
         temp_id: "tempid-1",
         body: "This is the last chat Message",
-        create_datetime: ""
+        create_datetime: "2021/02/12"
       },
       unreadMessageCount: 2
     },
     {
       chat: "abc-www-abc",
-      name: "Sina ebr",
+      name: "Amir Askari",
       avatar:  sample_avatar,
       bio: "this is bio",
       last_message: {
@@ -47,7 +53,7 @@ function App() {
         id: "Message-2",
         temp_id: "tempid-2",
         body: "This is the last chat Message",
-        create_datetime: ""
+        create_datetime: "2021/02/12"
       },
       unreadMessageCount: 0
 
@@ -56,7 +62,7 @@ function App() {
     ,
     {
       chat: "abc-eee-abc",
-      name: "Sina ebr",
+      name: "Maria Laura",
       avatar:  sample_avatar,
       bio: "this is bio",
       last_message: {
@@ -65,7 +71,7 @@ function App() {
         id: "Message-3",
         temp_id: "tempid-3",
         body: "This is the last chat Message",
-        create_datetime: ""
+        create_datetime: "2021/02/12"
       },
       unreadMessageCount: 1
     }];
@@ -78,7 +84,7 @@ function App() {
               <ChatList user={user} messageList={sampleMessageList}/>
             </div>
             <div id="messageBox">
-                <MessageBox store={store} />
+                <MessageBox user={user} store={store} />
             </div>
           </div>
          }

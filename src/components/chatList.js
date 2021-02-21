@@ -4,7 +4,7 @@ import {store} from '../store/store'
 
 import '../assets/css/messageList.scss';
 import {ThreeDotsVertical, Plus} from 'react-bootstrap-icons';
-function MessageList(props){
+function ChatList(props){
    
     return (<>
        <div className="userInfo">
@@ -32,6 +32,7 @@ function MessageList(props){
                     chatId={item.chat}
                     key={item.chat} 
                     lastMessage={item.last_message.body} 
+                    lastMessageDate = {item.last_message.create_datetime}
                     unreadMessageCount={item.unreadMessageCount}
                     name={item.name} lastMessage={item.last_message.body} />)
             }
@@ -39,4 +40,4 @@ function MessageList(props){
     </>);
 }
 
-export default MessageList;
+export default ChatList;

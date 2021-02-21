@@ -5,46 +5,41 @@ import messagesReducer from '../reducers/messages';
 import chatReducer from '../reducers/chats'
 
 function* fetchMessageList(action) {
-    const messageList = yield axios({
-        url: 'https://amir.com',
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-            
-        },
-        data:{
-            chatId: action.payload.chatId
-        }
-    }).then(res => res.data)
-    .catch(() => {
-        return ({
+    const messageList = yield new Promise((resolve,reject) => {
+        //if the api resopons is ok
+        resolve();
+        //if the api resopons is not ok
+        //reject();
+    })
+    .then(res => ( 
+        [{
+            userId: '12345678',
             chatId: 'xxx-xxx-xxx',
-            messages: [
-                {
-                    userId: '12345678',
-                    chatId: 'xxx-xxx-xxx',
-                    body: 'this is sample text message',
-                    createDate: '2021/01/23',
-                    from: 'Amir Askari'
-                 },
-                 {
-                    userId: '12342225678',
-                    chatId: 'xxx-xxx-xxx',
-                    body: 'this is sample text message',
-                    createDate: '2021/01/23',
-                    from: 'Dee Marin'
-                 },
-                 {
-                    userId: '12345678',
-                    chatId: 'xxx-xxx-xxx',
-                    body: 'this is sample text message',
-                    createDate: '2021/01/23',
-                    from: 'Amir Askari'
-                 }
-        ]
-        });
+            body: 'this is sample text message 01',
+            createDate: '2021/01/23',
+            from: 'Amir Askari'
+         },
+         {
+            userId: '12342225678',
+            chatId: 'xxx-xxx-xxx',
+            body: 'this is sample text message 02',
+            createDate: '2021/01/23',
+            from: 'Dee Marin'
+         },
+         {
+            userId: '12345678',
+            chatId: 'xxx-xxx-xxx',
+            body: 'this is sample text message 03',
+            createDate: '2021/01/23',
+            from: 'Amir Askari'
+         }]))
+    .catch(() => {
+        return null;
     }); 
-    
+    if(!messageList){
+        store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 3}));
+        return;
+    }
     yield store.dispatch(messagesReducer.actions.messageBoxChanged({messages: messageList}));
     yield setTimeout(() => {
         store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 2}));
