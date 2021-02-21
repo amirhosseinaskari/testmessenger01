@@ -46,12 +46,15 @@ function* fetchMessageList(action) {
     }); 
     
     yield store.dispatch(messagesReducer.actions.messageBoxChanged({messages: messageList}));
-    yield store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 2}));
+    yield setTimeout(() => {
+        store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 2}));
+    }, 2000); 
 }
 
 function* watchMessageBoxChanged() {
     yield takeLatest(chatReducer.actions.chatSelected, fetchMessageList);
 }
+
 
 export default function* rootSaga() {
     yield all([

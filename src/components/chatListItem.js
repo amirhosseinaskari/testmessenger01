@@ -8,7 +8,7 @@
 function MessageListItem(props){
     
     return (<>
-        <li className="messageListItem">
+        <li className="messageListItem" onClick={props.onClick}>
                 <div className="messagerAvatarContainer">
                     <img src={props.avatar} />
                 </div>

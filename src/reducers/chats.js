@@ -23,11 +23,13 @@ const chatReducer = createSlice({
     },
     reducers: {
         chatSelected: (chats, action) => {
+            
             chats = {...action.payload.messegeInfo, isActive: true}
         },
         chatStatusEdit: (chats, action) => {
+            
             chats.chatStatus = action.payload.chatStatus;
-            console.log(action.payload.chatStatus);
+            
         }
     }
 });

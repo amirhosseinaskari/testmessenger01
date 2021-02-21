@@ -3,9 +3,8 @@ import './App.scss';
 import sample_avatar from './assets/images/sample_avatar.jpg';
 import user_avatar from './assets/images/user_avatar.jpg';
 import MessageBox from './components/message_box';
-import MessageList from './components/messageList';
+import ChatList from './components/chatList';
 import {store} from './store/store';
-import chatReducer from './reducers/chats';
 import Provider from 'react-redux/lib/components/Provider';
 import { useState, useEffect } from 'react';
 import Splash from './components/splash';
@@ -76,7 +75,7 @@ function App() {
          {!user ? <Splash /> : 
           <div>
             <div id="messageList">
-              <MessageList user={user} messageList={sampleMessageList}/>
+              <ChatList user={user} messageList={sampleMessageList}/>
             </div>
             <div id="messageBox">
                 <MessageBox store={store} />
