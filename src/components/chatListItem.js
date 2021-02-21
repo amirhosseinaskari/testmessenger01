@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import connect from 'react-redux/lib/connect/connect';
+import chatReducer from '../reducers/chats'
+import {store} from '../store/store';
 /**
  * @component
  * @param {props} props 
@@ -6,9 +10,33 @@
  * count of unread messages
  */
 function MessageListItem(props){
+   
+    const currentChatId = store.getState().entities.chats.chatInfo.chatId;
     
+    const onChatClicked = (e, chatId) => {
+        if(currentChatId === props.chatId){
+            return;
+        }
+        store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 1}));
+        store.dispatch(chatReducer.actions.chatSelected({
+            chatInfo: {
+              avatar: '',
+              bio: '',
+              name: '',
+              chatId: chatId,
+              last_message: {
+                  from: "",
+                  chat: "",
+                  id: "",
+                  temp_id: "",
+                  body: "",
+                  create_datetime: ""
+                }
+          }
+          }));
+    };
     return (<>
-        <li className="messageListItem" onClick={props.onClick}>
+        <li className={`messageListItem ${props.chatId === currentChatId ? "active" : ''}`} onClick={(e) => {onChatClicked(e, props.chatId)}}>
                 <div className="messagerAvatarContainer">
                     <img src={props.avatar} />
                 </div>
@@ -26,10 +54,10 @@ function MessageListItem(props){
                    :
                    null}
                 </div>
-             
-               
         </li>
     </>);
 }
-
-export default MessageListItem;
+const mapStateToProps = state => ({
+    currentChatId: state.entities.chats.chatInfo.chatId
+});
+export default connect(mapStateToProps)(MessageListItem); 

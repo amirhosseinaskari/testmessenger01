@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { act } from 'react-dom/test-utils';
 /**
  * this reducer handles states of message list which are at the side bar.
  * chatStatus => 1: pending / 2: loaded / 3: failed
@@ -8,23 +9,28 @@ const chatReducer = createSlice({
     initialState: {
         isActive: false,
         chatStatus: -1,
-        avatar: '',
-        bio: '',
-        name: '',
-        chatId: '',
-        last_message: {
-            from: "",
-            chat: "",
-            id: "",
-            temp_id: "",
-            body: "",
-            create_datetime: ""
-          }
+        chatInfo: {
+            avatar: '',
+            bio: '',
+            name: '',
+            chatId: '',
+            last_message: {
+                from: "",
+                chat: "",
+                id: "",
+                temp_id: "",
+                body: "",
+                create_datetime: ""
+              }
+        }
+       
     },
     reducers: {
         chatSelected: (chats, action) => {
             
-            chats = {...action.payload.messegeInfo, isActive: true}
+            chats.chatInfo = {...action.payload.chatInfo};
+            chats.isActive = true;
+           
         },
         chatStatusEdit: (chats, action) => {
             

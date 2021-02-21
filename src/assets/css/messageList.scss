@@ -69,6 +69,10 @@
     &:hover{
         background-color: rgb(22, 22, 22);
     }
+
+    &.active{
+        background-color: rgb(22, 22, 22);
+    }
     .messagerAvatarContainer{
         margin-right:20px;
         img {
