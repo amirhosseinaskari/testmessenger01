@@ -20,7 +20,7 @@ function MessegeList(props){
                </a>
             </div>
        </div>
-       <div></div>
+      
        <div className="searchMessege">
            <SearchMessege />
        </div> 
