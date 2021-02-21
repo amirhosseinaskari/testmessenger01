@@ -2,7 +2,7 @@ import {all, takeLatest, takeEvery} from 'redux-saga/effects';
 import {store} from './store';
 import axios from 'axios';
 import messagesReducer from '../reducers/messages';
-import messageInfoReducer from '../reducers/messegeInfo'
+import chatReducer from '../reducers/chats'
 
 function* fetchMessageList(action) {
     const messageList = yield axios({
@@ -44,12 +44,13 @@ function* fetchMessageList(action) {
         ]
         });
     }); 
-   
+    
     yield store.dispatch(messagesReducer.actions.messageBoxChanged({messages: messageList}));
+    yield store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 2}));
 }
 
 function* watchMessageBoxChanged() {
-    yield takeLatest(messageInfoReducer.actions.messageSelected, fetchMessageList);
+    yield takeLatest(chatReducer.actions.chatSelected, fetchMessageList);
 }
 
 export default function* rootSaga() {

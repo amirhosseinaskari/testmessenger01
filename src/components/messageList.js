@@ -1,10 +1,28 @@
 import MessageListItem from './messageListItem';
 import SearchMessage from './search_message'
+import chatReducer from '../reducers/chats'
+import {store} from '../store/store';
 import '../assets/css/messageList.scss';
 import {ThreeDotsVertical, Plus} from 'react-bootstrap-icons';
 function MessageList(props){
     const onMessageListItemClicked = (e, chatId) => {
-        
+        //store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 1}));
+        store.dispatch(chatReducer.actions.chatSelected({
+            messageInfo: {
+              avatar: '',
+              bio: '',
+              name: '',
+              chatId: '',
+              last_message: {
+                  from: "",
+                  chat: "",
+                  id: "",
+                  temp_id: "",
+                  body: "",
+                  create_datetime: ""
+                }
+          }
+          }));
     };
     return (<>
        <div className="userInfo">

@@ -5,32 +5,22 @@ import user_avatar from './assets/images/user_avatar.jpg';
 import MessageBox from './components/message_box';
 import MessageList from './components/messageList';
 import {store} from './store/store';
-import messageInfoReducer from './reducers/messegeInfo';
+import chatReducer from './reducers/chats';
+import Provider from 'react-redux/lib/components/Provider';
+import { useState, useEffect } from 'react';
+import Splash from './components/splash';
 function App() {
-  store.dispatch(messageInfoReducer.actions.messageSelected({
-    messageInfo: {
-      avatar: '',
-      bio: '',
-      name: '',
-      chatId: '',
-      last_message: {
-          from: "",
-          chat: "",
-          id: "",
-          temp_id: "",
-          body: "",
-          create_datetime: ""
-        }
-  }
-  }));
-
-  
-  const user = {
-    uuid:"123-456-789",
-    avatar:user_avatar,
-    name: "AmirHossein Askari",
-    bio: "this is bio"
-  }
+  const [user, setUserState] = useState(null);
+  useEffect(() => {
+    setTimeout(() => {
+      setUserState({
+        uuid:"123-456-789",
+        avatar:user_avatar,
+        name: "AmirHossein Askari",
+        bio: "this is bio"
+      });
+    }, 2000);
+  }, [user])
   const sampleMessageList = 
     [{
       chat: "abc-ddd-abc",
@@ -81,15 +71,22 @@ function App() {
       unreadMessageCount: 1
     }];
   return (
-    <div className="App">
-      <div id="messageList">
-        <MessageList user={user} messageList={sampleMessageList}/>
-      </div>
-      <div id="messageBox">
-         <MessageBox />
-      </div>
-      
-    </div>
+    <Provider store={store}>
+       <div className="App">
+         {!user ? <Splash /> : 
+          <div>
+            <div id="messageList">
+              <MessageList user={user} messageList={sampleMessageList}/>
+            </div>
+            <div id="messageBox">
+                <MessageBox store={store} />
+            </div>
+          </div>
+         }
+          
+       </div>
+    </Provider>
+   
   );
 }
 

@@ -1,11 +1,35 @@
 import MessageForm from './message_form'
 import '../assets/css/messageBox.scss';
-function MessageBox(){
-    return (<>
-      
-          <MessageForm />
-      
-    </>);
+import {connect} from 'react-redux'
+import {store} from '../store/store'
+/**
+ * @component
+ * first message box shows nothing. when user clicks on item at the 
+ * message list (side bar) message box shows messages 
+ */
+function MessageBox(props){
+    const chatStatus = store.getState().entities.chats.chatStatus;
+  
+   
+   const result = (chatStatus) => { switch (chatStatus) {
+        case 1:
+            return <div className="emptyMessageBox">Messages are loading ...</div>
+        case 2:
+            return <MessageForm />
+        case 3:
+            return <div className="emptyMessageBox">Loading Messages is Failed</div>
+        default:
+            return <div className="emptyMessageBox">Select a chat from the sidebar</div>;
+            
+    }
 }
+    return (<>
+        {result(chatStatus)}
+    </>);
+  
+}
+const mapStateToProps = state => ({
+    showMessageBox: state.entities.chats.chatStatus
+});
 
-export default MessageBox;
+export default connect(mapStateToProps)(MessageBox);

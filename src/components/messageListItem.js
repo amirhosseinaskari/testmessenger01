@@ -1,3 +1,10 @@
+/**
+ * @component
+ * @param {props} props 
+ * summary information of each chat that is shown at the side bar.
+ * this information contains avatar, name, last message text, last message date, 
+ * count of unread messages
+ */
 function MessageListItem(props){
     
     return (<>
