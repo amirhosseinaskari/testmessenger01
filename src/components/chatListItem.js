@@ -14,6 +14,14 @@ function MessageListItem(props){
     const currentChatId = store.getState().entities.chats.chatInfo.chatId;
     
     const onChatClicked = (e, chatId) => {
+        //show message box and hide chat list
+        const chatListElement = document.querySelector('#messageList');
+        const chatroomElement = document.querySelector('#messageBox');
+        chatListElement.classList.remove('active');
+        chatListElement.classList.add('hidden');
+        chatroomElement.classList.add('active');
+        chatroomElement.classList.remove('hidden');
+        
         if(currentChatId === props.chatId){
             return;
         }
@@ -23,9 +31,9 @@ function MessageListItem(props){
         //fetch api chat inforamtion by chat id 
         store.dispatch(chatReducer.actions.chatSelected({
             chatInfo: {
-              avatar: '',
+              avatar: props.avatar,
               bio: '',
-              name: '',
+              name: props.name,
               chatId: chatId,
               last_message: {
                   from: "",
@@ -33,7 +41,7 @@ function MessageListItem(props){
                   id: "",
                   temp_id: "",
                   body: "",
-                  create_datetime: ""
+                  create_datetime: props.lastMessageDate
                 }
           }
           }));

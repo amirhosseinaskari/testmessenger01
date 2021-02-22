@@ -56,9 +56,8 @@ function* fetchMessageList(action) {
         return;
     }
     yield store.dispatch(messagesReducer.actions.messageBoxChanged({messages: messageList}));
-    yield setTimeout(() => {
-        store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 2}));
-    }, 2000); 
+    yield store.dispatch(chatReducer.actions.chatStatusEdit({chatStatus: 2}));
+    
 }
 
 function* watchMessageBoxChanged() {

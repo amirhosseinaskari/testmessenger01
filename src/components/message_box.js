@@ -3,6 +3,7 @@ import ChatroomBody from './chatroom_body';
 import '../assets/css/messageBox.scss';
 import {connect} from 'react-redux'
 import {store} from '../store/store'
+import ChatroomHeader from './chatroom_header';
 /**
  * @component
  * first message box shows nothing. when user clicks on item at the 
@@ -16,10 +17,11 @@ function MessageBox(props){
         case 1:
             return <div className="emptyMessageBox">Messages are loading ...</div>
         case 2:
-            return <> 
+            return <div className="chatroomBodyWrapper"> 
+                        <ChatroomHeader />
                         <ChatroomBody userId={props.user.userId} />
                         <MessageForm />
-                   </> 
+                   </div> 
         case 3:
             return <div className="emptyMessageBox">Loading Messages is Failed</div>
         default:

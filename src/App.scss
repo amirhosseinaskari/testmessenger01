@@ -7,19 +7,39 @@
   #messageList {
     flex-grow:1;
     flex-shrink:0;
-    width: 400px;
+    width: 350px;
     max-width: 100%;
     min-height: 100vh;
     background-color:black;
+    overflow-x: hidden;
 
+    @media only screen and (max-width: 900px) {
+      &.hidden {
+       display: none;
+      }
+
+      &.active {
+        display: block;
+      }
+    }
   }
   
   #messageBox{
     position: relative;
+    min-height: 100vh;
     flex-grow:1;
     flex-shrink: 1;
     width: 100%;
     background-color: #e6e6e6;
+    @media only screen and (max-width: 900px) {
+      &.hidden {
+       display: none;
+      }
+
+      &.active {
+        display: block;
+      }
+    }
   }
 
   .splash {

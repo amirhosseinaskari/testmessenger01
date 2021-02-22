@@ -1,4 +1,4 @@
-import {EmojiSmile, Paperclip} from 'react-bootstrap-icons';
+import {EmojiSmile, Paperclip, Mic} from 'react-bootstrap-icons';
 import {useState, useRef} from 'react';
 function  MessageForm(props) {
     const [isTyping, setIsTyping] = useState(false)
@@ -23,7 +23,7 @@ function  MessageForm(props) {
                  {isTyping ? <button>Send</button> :null}
             </form>
             <div className="voiceButtonContainer">
-                 {!isTyping ? <button>Voice</button> : null}
+                 {!isTyping ? <button><Mic size={24} /></button> : null}
             </div>
         </div>
     </>);

@@ -7,6 +7,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const chatReducer = createSlice({
     name: 'chats',
     initialState: {
+        isLogin: false,
         userId: '',
         isActive: false,
         chatStatus: -1,
@@ -30,6 +31,9 @@ const chatReducer = createSlice({
         chatSelected: (chats, action) => {
             chats.chatInfo = {...action.payload.chatInfo};
             chats.isActive = true;
+            chats.avatar = action.payload.avatar;
+            chats.name = action.payload.name;
+            
         },
         chatStatusEdit: (chats, action) => {
             chats.chatStatus = action.payload.chatStatus;
