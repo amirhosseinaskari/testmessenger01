@@ -17,7 +17,7 @@ function App() {
     }
     setTimeout(async () => {
       setUser({
-        uuid:"123-456-789",
+        userId:"12345678",
         avatar:user_avatar,
         name: "AmirHossein Askari",
         bio: "this is bio"

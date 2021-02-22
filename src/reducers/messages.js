@@ -8,8 +8,8 @@ const messageReducer = createSlice({
     initialState: [],
     reducers: {
         messageBoxChanged: (messages, action) => {
-            messages.push(action.payload.messages);
-           
+          // messages = [...action.payload.messages];
+           return [...action.payload.messages];
         }
     }
 });

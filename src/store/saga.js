@@ -17,6 +17,8 @@ function* fetchMessageList(action) {
             chatId: 'xxx-xxx-xxx',
             body: 'this is sample text message 01',
             createDate: '2021/01/23',
+            isSeen: true,
+            isDelivered: true,
             from: 'Amir Askari'
          },
          {
@@ -24,6 +26,8 @@ function* fetchMessageList(action) {
             chatId: 'xxx-xxx-xxx',
             body: 'this is sample text message 02',
             createDate: '2021/01/23',
+            isSeen: true,
+            isDelivered: true,
             from: 'Dee Marin'
          },
          {
@@ -31,6 +35,17 @@ function* fetchMessageList(action) {
             chatId: 'xxx-xxx-xxx',
             body: 'this is sample text message 03',
             createDate: '2021/01/23',
+            isSeen: false,
+            isDelivered: true,
+            from: 'Amir Askari'
+         },
+         {
+            userId: '12345678',
+            chatId: 'xxx-xxx-xxx',
+            body: 'this is sample text message 03',
+            createDate: '2021/01/23',
+            isSeen: false,
+            isDelivered: false,
             from: 'Amir Askari'
          }]))
     .catch(() => {

@@ -3,10 +3,11 @@ import MyMessage from './my_message';
 import OtherMessage from './other_message';
 function ChatroomBody(props) {
     const messages = store.getState().entities.messages;
+    
     return (<>
         <div className="chatroomBody">
-            {messages.map((item) => (
-                item.userId === props.userId ? <MyMessage message={item} /> : <OtherMessage message={item} />
+            {messages.map((item, index) => (
+                item.userId === props.userId ? <MyMessage message={item} key={`chat${index}`} /> : <OtherMessage message={item} key={`chat${index}`} />
             ))}
         </div>
     </>);
