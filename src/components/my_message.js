@@ -1,11 +1,24 @@
-import {Check, CheckAll, ArrowClockwise, ExclamationCircle} from 'react-bootstrap-icons';
+import { useState } from 'react';
+import {Check, CheckAll, ArrowClockwise, ExclamationCircle, Trash} from 'react-bootstrap-icons';
+import DeleteMessageModal from './delete_message_modal';
 function  MyMessage(props) {
-    
+    const [deleteModal, setDeleteModal] = useState(null);
+    const onDeleteHandler = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setDeleteModal(<DeleteMessageModal messageId={props.message.id} />);
+    };
     return (<>
         <div className="message myMessage" key={props.code}>
-            <p>{props.message.body}</p>
+            <div className="message_body">
+              <p>{props.message.body}</p>
+              <a href="#" onClick={onDeleteHandler} className="delete_message">
+                  <Trash size={20} />
+                  {deleteModal}
+              </a>
+            </div>
             <div className="data_seen_container">
-                 <span className="date">
+                <span className="date">
                    {props.message.createDate}
                 </span>
                 {props.message.isPending ? 
@@ -14,7 +27,6 @@ function  MyMessage(props) {
                 (props.message.isDelivered ?  <span className="delivered"><CheckAll size={20} /></span> : 
                 (props.message.isFailed ? <span className="failed"><ExclamationCircle size={20} /></span> :<span className="sent"><Check size={20} /></span>)
                 ))}
-               
             </div>
         </div>
     </>);

@@ -1,0 +1,15 @@
+
+    .delete_modal{
+        display: flex;
+        flex-direction: column;
+        background-color:white;
+        border-radius: 6px;
+        a {
+            display: inline-block;
+            width: 100%;
+            padding:10px;
+        }
+        a:first-child{
+            border-bottom: 1px solid rgb(231, 231, 231);
+        }
+    }
