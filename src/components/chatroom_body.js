@@ -1,6 +1,7 @@
 import {store} from '../store/store';
 import MyMessage from './my_message';
 import OtherMessage from './other_message';
+import {connect} from 'react-redux';
 function ChatroomBody(props) {
     const messages = store.getState().entities.messages;
     
@@ -12,5 +13,7 @@ function ChatroomBody(props) {
         </div>
     </>);
 }
-
-export default ChatroomBody;
+const mapStateToProps = state => ({
+    messages: state.entities.messages
+});
+export default connect(mapStateToProps)(ChatroomBody);

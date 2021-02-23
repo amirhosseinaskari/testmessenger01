@@ -10,28 +10,17 @@ import { useState, useEffect } from 'react';
 import Splash from './components/splash';
 import Login from './components/login';
 function App() {
-  const [user, setUser] = useState(null);
+  const getUserByUserId = (uuid) => ({
+    userId:"12345678",
+    avatar:user_avatar,
+    name: "AmirHossein Askari",
+    bio: "this is bio"
+  });
+  const [user, setUser] = useState(getUserByUserId(sessionStorage.getItem('uuid')));
   const [isLogin, setLoginStatus] = useState(false);
   const [userId, setUserId] = useState(sessionStorage.getItem('uuid'));
-  /**
-   * check user is logged in before or not.
-   * if user logged in before she/he doesn't have to login again
-   * we handled it by checking uuid that is stored in sessionStorage
-   */
-  const fetchUserInfoByUserId = (uuid) => {
-    if(uuid){
-      setTimeout(async () => {
-        setUser({
-          userId:"12345678",
-          avatar:user_avatar,
-          name: "AmirHossein Askari",
-          bio: "this is bio"
-        });
-      }, 2000);
-      return user;
-    }
-    return null;
-  };
+
+
   /**
    * @event
    * @param {uuid} uuid 
@@ -39,9 +28,7 @@ function App() {
    */
   const onLogin = (uuid) => {
    const loginRequest = new Promise((resoleve, reject) => {
-      setTimeout(() => {
         resoleve(200);
-      }, 1000);
     });
     loginRequest.then((res) => {
       if(res === 200){
@@ -50,7 +37,19 @@ function App() {
       }
     }).then(() => {
       setUserId(uuid);
-      
+    }).then(() => {
+      setUser({
+        userId:"12345678",
+        avatar:user_avatar,
+        name: "AmirHossein Askari",
+        bio: "this is bio"
+      });
+      sessionStorage.setItem('user', {
+        userId:"12345678",
+        avatar:user_avatar,
+        name: "AmirHossein Askari",
+        bio: "this is bio"
+      });
     });
   };
   const sampleMessageList = 
@@ -103,9 +102,8 @@ function App() {
       unreadMessageCount: 1
     }];
   return (
-    <Provider store={store}>
        <div className="App">
-        {(!isLogin && !userId) ?  <Login onLogin={onLogin} /> : (!fetchUserInfoByUserId(userId) ? <Splash /> : 
+        {(!isLogin && !userId) ?  <Login onLogin={onLogin} /> : (!user ? <Splash /> : 
           <div>
             <div id="messageList" className="active">
               <ChatList user={user} messageList={sampleMessageList}/>
@@ -117,7 +115,6 @@ function App() {
          }
           
        </div>
-    </Provider>
    
   );
 }

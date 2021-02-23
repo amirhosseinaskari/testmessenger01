@@ -19,7 +19,7 @@ function MessageBox(props){
         case 2:
             return <div className="chatroomBodyWrapper"> 
                         <ChatroomHeader />
-                        <ChatroomBody userId={props.user.userId} />
+                        <ChatroomBody userId={props.user.userId} store={store} />
                         <MessageForm />
                    </div> 
         case 3:
