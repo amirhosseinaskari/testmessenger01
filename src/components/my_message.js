@@ -1,21 +1,80 @@
 import { useState } from 'react';
 import {Check, CheckAll, ArrowClockwise, ExclamationCircle, Trash} from 'react-bootstrap-icons';
 import DeleteMessageModal from './delete_message_modal';
+import {store} from '../store/store';
+import messageReducer from '../reducers/messages';
 function  MyMessage(props) {
     const [deleteModal, setDeleteModal] = useState(null);
+
+     /**
+     * 
+     * @param {event} e 
+     * it handles on delete for me clicked
+     */
+    const onDeleteForMeClicked = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const sendRequestForDelete = new Promise((resolve,reject) => {
+            resolve(202);
+        });
+        sendRequestForDelete.then((val) => {
+            if(val === 200){
+                store.dispatch(messageReducer.actions.messageDelete({id: props.message.id}));
+                return;
+            }
+            throw 'Whoops!! an error occured while deleting the message';
+        }).catch((error) => {
+            alert(`${error}`);
+        });
+    };
+    /**
+     * 
+     * @param {event} e
+     * it handles on delete for me clicked 
+     */
+    const onDeleteForEveryoneClicked = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const sendRequestForDelete = new Promise((resolve,reject) => {
+            resolve(200);
+        });
+        sendRequestForDelete.then((val) => {
+            if(val === 200){
+                store.dispatch(messageReducer.actions.messageDelete({id: props.message.id}));
+                return;
+            }
+            throw 'Whoops!! an error occured while deleting the message';
+        }).catch((error) => {
+            alert(`${error}`);
+        });;
+    };
+    /**
+     * 
+     * @param {event} e 
+     * it handles on delete message clicked
+     */
     const onDeleteHandler = (e) => {
         e.stopPropagation();
         e.preventDefault();
-        setDeleteModal(<DeleteMessageModal messageId={props.message.id} />);
+        if(deleteModal){
+            setDeleteModal(null);
+        }else{
+            setDeleteModal(<DeleteMessageModal onDeleteForMeClicked={onDeleteForMeClicked}
+                 onDeleteForEveryoneClicked={onDeleteForEveryoneClicked}
+                 messageId={props.message.id} />);
+        }
+        
     };
+
+   
     return (<>
         <div className="message myMessage" key={props.code}>
             <div className="message_body">
               <p>{props.message.body}</p>
-              <a href="#" onClick={onDeleteHandler} className="delete_message">
+              <div onClick={onDeleteHandler} className="delete_message_icon">
                   <Trash size={20} />
                   {deleteModal}
-              </a>
+              </div>
             </div>
             <div className="data_seen_container">
                 <span className="date">

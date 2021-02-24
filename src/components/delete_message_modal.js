@@ -1,9 +1,11 @@
 import '../assets/css/deleteModal.scss';
 function DeleteMessageModal(props){
+
+    
     return (
         <div className="delete_modal">
-            <a href="#">Delete For Me</a>
-            <a href="#">Delete For Everyone</a>
+            <a href="#" onClick={props.onDeleteForMeClicked}>Delete For Me</a>
+            <a href="#" onClick={props.onDeleteForEveryoneClicked}>Delete For Everyone</a>
         </div>
     );
 }

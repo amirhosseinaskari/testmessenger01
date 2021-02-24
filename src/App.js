@@ -9,6 +9,7 @@ import {Provider} from 'react-redux';
 import { useState, useEffect } from 'react';
 import Splash from './components/splash';
 import Login from './components/login';
+import connection from './components/websocketConnection';
 function App() {
   const getUserByUserId = (uuid) => ({
     userId:"12345678",
@@ -16,41 +17,69 @@ function App() {
     name: "AmirHossein Askari",
     bio: "this is bio"
   });
-  const [user, setUser] = useState(getUserByUserId(sessionStorage.getItem('uuid')));
+  const [user, setUser] = useState(getUserByUserId(sessionStorage.getItem('user')));
   const [isLogin, setLoginStatus] = useState(false);
   const [userId, setUserId] = useState(sessionStorage.getItem('uuid'));
-
-
+  console.log(user, userId);
+  connection.onopen = (e) => {
+    console.log('connection is opened');
+  };
+  connection.onerror = (error) => {
+    connection.log(error);
+  };
+  connection.onmessage = (m) => {
+    const res = JSON.parse(m.data);
+    console.log(res);
+    if(res.status_code === 200){
+        console.log(true);
+        setLoginStatus(true);
+        setUserId('12345678');
+         setUser({
+            userId:"12345678",
+            avatar:user_avatar,
+            name: "AmirHossein Askari",
+            bio: "this is bio"
+           });
+        sessionStorage.setItem('uuid','12345678');
+        sessionStorage.setItem('user', {
+          userId:"12345678",
+          avatar:user_avatar,
+          name: "AmirHossein Askari",
+          bio: "this is bio"
+          });
+    }else {
+      alert('response is not ok!');
+    }
+  }
   /**
    * @event
    * @param {uuid} uuid 
    * fetch user info when on user login
    */
+  //uuid 01 = 41da92dd-8336-447a-b372-4cb236501120
   const onLogin = (uuid) => {
-   const loginRequest = new Promise((resoleve, reject) => {
-        resoleve(200);
-    });
-    loginRequest.then((res) => {
-      if(res === 200){
-        setLoginStatus(true);
-        sessionStorage.setItem('uuid',uuid);
-      }
-    }).then(() => {
-      setUserId(uuid);
-    }).then(() => {
-      setUser({
-        userId:"12345678",
-        avatar:user_avatar,
-        name: "AmirHossein Askari",
-        bio: "this is bio"
-      });
-      sessionStorage.setItem('user', {
-        userId:"12345678",
-        avatar:user_avatar,
-        name: "AmirHossein Askari",
-        bio: "this is bio"
-      });
-    });
+       
+        const payload = {
+          uuid: uuid
+        };
+        const message = {
+          req_id: Math.floor(1000 + Math.random() * 8999),
+          req_time: (new Date()).getTime(),
+          from: uuid,
+          opcode: 1000,
+          payload: JSON.stringify(payload) 
+        };
+        
+        const connecting = setInterval(() => {
+          if(connection.readyState === 1){
+            connection.send(JSON.stringify(message));
+            console.log('message sent:', JSON.stringify(message));
+            clearInterval(connecting);
+          }
+        }, 1000);
+
+        
+        
   };
   const sampleMessageList = 
     [{

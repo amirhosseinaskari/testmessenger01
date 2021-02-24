@@ -157,6 +157,17 @@
         .failed {
             color: rgb(204, 0, 0);
         }
+        .message_body{
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            p{
+                flex-grow: 1;
+            }
+        }
+        .delete_message_icon{
+            cursor: pointer;
+        }
     }
     .otherMessage {
         background-color: white;

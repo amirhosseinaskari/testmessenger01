@@ -2,6 +2,7 @@ import {EmojiSmile, Paperclip, Mic, MicFill} from 'react-bootstrap-icons';
 import {useState, useRef} from 'react';
 import { store, getLastMessageId } from '../store/store';
 import messageReducer from '../reducers/messages';
+import connection from './websocketConnection';
 function  MessageForm(props) {
     const [isTyping, setIsTyping] = useState(false)
     const textMessageInput = useRef(null)
@@ -17,6 +18,10 @@ function  MessageForm(props) {
         }
         setIsTyping(true);
     };
+    connection.onmessage = (m) => {
+        console.log('res:',JSON.parse(m.data));
+       
+    };
     /**
      * 
      * @param {event} e 
@@ -26,38 +31,60 @@ function  MessageForm(props) {
         e.stopPropagation();
         e.preventDefault();
         const myId = getLastMessageId() + 1;
-        const message =  {
-            id: myId,
-            userId: '12345678',
-            chatId: 'xxx-xxx-xxx',
-            body: textMessageInput.current.value,
-            createDate: '2021/01/23',
-            isPending: true,
-            isSeen: false,
-            isDelivered: false,
-            from: 'Amir Askari'
-         };
-        new Promise((resolve, reject) => {
-            store.dispatch(messageReducer.actions.messageAdded({message}));
-            resolve();
-        })
-        .then(() => {
-            const isSent = true;
-            return(isSent);
-        }).then((res) => {
-            if(res){
-                store.dispatch(messageReducer.actions.messageDeliveryStatus({
-                    id: myId,
-                    isFailed: false
-                }));
-            }else{
-                store.dispatch(messageReducer.actions.messageDeliveryStatus({
-                    id: myId,
-                    isFailed: true
-                    
-                }));
+        const payload_message = {
+            message: {
+                from: '41da92dd-8336-447a-b372-4cb236501120',
+                chat: 'chat-e3584091-a7f4-4ec1-af90-31777dc83e9b',
+                client_provided_id: '123',
+                body: textMessageInput.current.value
             }
-        });
+        }
+        const message = {
+            req_id: Math.floor(1000 + Math.random() * 8999),
+            req_time: (new Date()).getTime(),
+            payload: JSON.stringify(payload_message),
+            opcode: 1002
+        }
+        // const message =  {
+        //     id: myId,
+        //     userId: '12345678',
+        //     chatId: 'xxx-xxx-xxx',
+        //     body: textMessageInput.current.value,
+        //     createDate: '2021/01/23',
+        //     isPending: true,
+        //     isSeen: false,
+        //     isDelivered: false,
+        //     from: 'Amir Askari'
+        //  };
+        const connecting = setInterval(() => {
+            if(connection.readyState === 1){
+              connection.send(JSON.stringify(message));
+              console.log('message sent:', JSON.stringify(message));
+              clearInterval(connecting);
+            }
+          }, 1000);
+        // new Promise((resolve, reject) => {
+
+        //     store.dispatch(messageReducer.actions.messageAdded({message}));
+        //     resolve();
+        // })
+        // .then(() => {
+        //     const isSent = true;
+        //     return(isSent);
+        // }).then((res) => {
+        //     if(res){
+        //         store.dispatch(messageReducer.actions.messageDeliveryStatus({
+        //             id: myId,
+        //             isFailed: false
+        //         }));
+        //     }else{
+        //         store.dispatch(messageReducer.actions.messageDeliveryStatus({
+        //             id: myId,
+        //             isFailed: true
+                    
+        //         }));
+        //     }
+        // });
     };
     /**
      * Microphone

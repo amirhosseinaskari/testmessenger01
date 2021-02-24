@@ -16,7 +16,7 @@ const messageReducer = createSlice({
             messages.push({...action.payload.message});
         },
         messageDelete: (messages, action) => {
-            messages.filter((item) => item.id === action.payload.id);
+           return messages.filter((item) => item.id !== action.payload.id);
         },
         messageDeliveryStatus: (messages, action) => {
             const index = messages.findIndex((item) => item.id === action.payload.id);
