@@ -1,64 +1,66 @@
 
 import './App.scss';
-import sample_avatar from './assets/images/sample_avatar.jpg';
 import user_avatar from './assets/images/user_avatar.jpg';
 import MessageBox from './components/message_box';
 import ChatList from './components/chatList';
 import {store} from './store/store';
-import {Provider} from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Splash from './components/splash';
 import Login from './components/login';
 import connection from './components/websocketConnection';
 function App() {
-  const getUserByUserId = (uuid) => ({
-    userId:"12345678",
-    avatar:user_avatar,
-    name: "AmirHossein Askari",
-    bio: "this is bio"
-  });
-  const [user, setUser] = useState(getUserByUserId(sessionStorage.getItem('user')));
+  //user information, when the user logs in, his/her information is stored in session storage by key = 'user'
+  const [user, setUser] = useState(sessionStorage.getItem('user'));
+  //login status
   const [isLogin, setLoginStatus] = useState(false);
+  //user Id (uuid), when the user logs in, his/her uuid is stored in session storage by key = 'uuid'
   const [userId, setUserId] = useState(sessionStorage.getItem('uuid'));
-  console.log(user, userId);
+
+  //when websocke connection is opened
   connection.onopen = (e) => {
     console.log('connection is opened');
   };
+
+  //when an error occurs in the websocket connection
   connection.onerror = (error) => {
     connection.log(error);
   };
+  //when a message is received from the server
   connection.onmessage = (m) => {
     const res = JSON.parse(m.data);
-    console.log(res);
-    if(res.status_code === 200){
-        console.log(true);
-        setLoginStatus(true);
-        setUserId('12345678');
-         setUser({
-            userId:"12345678",
+    
+    if(res.status_code === 200){ //if response is OK
+        if(res.opcode === 1000) { //if opcode === 1000 (login)
+          setLoginStatus(true);
+          setUserId(res.uuid);
+           setUser({
+              userId:res.uuid,
+              avatar:user_avatar,
+              name: res.name,
+              bio: res.bio
+             });
+          //storing uuid and user information after the login response is OK
+          sessionStorage.setItem('uuid',res.uuid);
+          sessionStorage.setItem('user', {
+            userId:res.uuid,
             avatar:user_avatar,
-            name: "AmirHossein Askari",
-            bio: "this is bio"
-           });
-        sessionStorage.setItem('uuid','12345678');
-        sessionStorage.setItem('user', {
-          userId:"12345678",
-          avatar:user_avatar,
-          name: "AmirHossein Askari",
-          bio: "this is bio"
-          });
-    }else {
+            name: res.name,
+            bio: res.bio
+            });
+        }
+       
+    }else { //if response is not ok for the request
       alert('response is not ok!');
     }
   }
   /**
    * @event
    * @param {uuid} uuid 
-   * fetch user info when on user login
+   * fetch user info when user logs in
    */
   //uuid 01 = 41da92dd-8336-447a-b372-4cb236501120
   const onLogin = (uuid) => {
-       
+        //login request 
         const payload = {
           uuid: uuid
         };
@@ -69,73 +71,28 @@ function App() {
           opcode: 1000,
           payload: JSON.stringify(payload) 
         };
-        
+        //trying to send request for login after connection is ready
         const connecting = setInterval(() => {
           if(connection.readyState === 1){
             connection.send(JSON.stringify(message));
             console.log('message sent:', JSON.stringify(message));
             clearInterval(connecting);
           }
-        }, 1000);
+        }, 100);
 
         
         
   };
-  const sampleMessageList = 
-    [{
-      chat: "abc-ddd-abc",
-      name: "Sina ebr",
-      avatar:  sample_avatar,
-      bio: "this is bio",
-      last_message: {
-        from: "xxx-xxx-xxx",
-        chat: "",
-        id: "Message-1",
-        temp_id: "tempid-1",
-        body: "This is the last chat Message",
-        create_datetime: "2021/02/12"
-      },
-      unreadMessageCount: 2
-    },
-    {
-      chat: "abc-www-abc",
-      name: "Amir Askari",
-      avatar:  sample_avatar,
-      bio: "this is bio",
-      last_message: {
-        from: "xxx-xxx-xxx",
-        chat: "",
-        id: "Message-2",
-        temp_id: "tempid-2",
-        body: "This is the last chat Message",
-        create_datetime: "2021/02/12"
-      },
-      unreadMessageCount: 0
 
-    }
-    
-    ,
-    {
-      chat: "abc-eee-abc",
-      name: "Maria Laura",
-      avatar:  sample_avatar,
-      bio: "this is bio",
-      last_message: {
-        from: "xxx-xxx-xxx",
-        chat: "",
-        id: "Message-3",
-        temp_id: "tempid-3",
-        body: "This is the last chat Message",
-        create_datetime: "2021/02/12"
-      },
-      unreadMessageCount: 1
-    }];
+  //message list
+  const messageList = [];
+  
   return (
        <div className="App">
         {(!isLogin && !userId) ?  <Login onLogin={onLogin} /> : (!user ? <Splash /> : 
           <div>
             <div id="messageList" className="active">
-              <ChatList user={user} messageList={sampleMessageList}/>
+              <ChatList user={user} messageList={messageList}/>
             </div>
             <div id="messageBox" className="hidden">
                 <MessageBox user={user} store={store} />

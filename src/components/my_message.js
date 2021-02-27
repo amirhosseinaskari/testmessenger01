@@ -9,7 +9,7 @@ function  MyMessage(props) {
      /**
      * 
      * @param {event} e 
-     * it handles on delete for me clicked
+     * handling Delete For Me 
      */
     const onDeleteForMeClicked = (e) => {
         e.stopPropagation();
@@ -30,7 +30,7 @@ function  MyMessage(props) {
     /**
      * 
      * @param {event} e
-     * it handles on delete for me clicked 
+     * handling Delete For EveryOne
      */
     const onDeleteForEveryoneClicked = (e) => {
         e.stopPropagation();
@@ -51,7 +51,7 @@ function  MyMessage(props) {
     /**
      * 
      * @param {event} e 
-     * it handles on delete message clicked
+     * a handler for click on delete message icon
      */
     const onDeleteHandler = (e) => {
         e.stopPropagation();
