@@ -19,9 +19,41 @@ function App() {
   //req id
   const [reqId, setReqId] = useState(null);
 
+  /**
+   * @event
+   * @param {uuid} uuid 
+   * fetch user info when user logs in
+   */
+  //uuid 01 = 41da92dd-8336-447a-b372-4cb236501120
+  const onLogin = (uuid) => {
+    //login request 
+    const payload = {
+      uuid: uuid
+    };
+    const message = {
+      req_id: Math.floor(1000 + Math.random() * 8999),
+      req_time: (new Date()).getTime(),
+      from: uuid,
+      opcode: 1000,
+      payload: JSON.stringify(payload) 
+    };
+    
+    //trying to send request for login after connection is ready
+    const connecting = setInterval(() => {
+      if(connection.readyState === 1){
+        connection.send(JSON.stringify(message));
+        console.log('message sent:', JSON.stringify(message));
+        setReqId(message.req_id);
+        clearInterval(connecting);
+      }
+    }, 100); 
+};
   //when websocke connection is opened
   connection.onopen = (e) => {
     console.log('connection is opened');
+    if(userId) {
+      onLogin(userId);
+    }
   };
   
   //when an error occurs in the websocket connection
@@ -52,42 +84,8 @@ function App() {
       alert('response is not ok!');
     }
   }
-  /**
-   * @event
-   * @param {uuid} uuid 
-   * fetch user info when user logs in
-   */
-  //uuid 01 = 41da92dd-8336-447a-b372-4cb236501120
-  const onLogin = (uuid) => {
-        //login request 
-        const payload = {
-          uuid: uuid
-        };
-        const message = {
-          req_id: Math.floor(1000 + Math.random() * 8999),
-          req_time: (new Date()).getTime(),
-          from: uuid,
-          opcode: 1000,
-          payload: JSON.stringify(payload) 
-        };
-        
-        //trying to send request for login after connection is ready
-        const connecting = setInterval(() => {
-          if(connection.readyState === 1){
-            connection.send(JSON.stringify(message));
-            console.log('message sent:', JSON.stringify(message));
-            setReqId(message.req_id);
-            clearInterval(connecting);
-          }
-        }, 100);
+  
 
-        
-        
-  };
-  // lastMessage={item.last_message.body} 
-  // lastMessageDate = {item.last_message.create_datetime}
-  // unreadMessageCount={item.unreadMessageCount}
-  // name={item.name} lastMessage={item.last_message.body} />)
   //message list
   const messageList = [
     {

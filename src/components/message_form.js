@@ -1,14 +1,15 @@
-import {EmojiSmile, Paperclip, Mic, MicFill} from 'react-bootstrap-icons';
+import {EmojiSmile, Paperclip, Mic, MicFill, CodeSquare} from 'react-bootstrap-icons';
 import {useState, useRef} from 'react';
 import { store, getLastMessageId, getUserId, getChatId, getMessageById, getMessageId } from '../store/store';
 import messageReducer from '../reducers/messages';
 import connection from './websocketConnection';
 import { current } from '@reduxjs/toolkit';
 function  MessageForm(props) {
-    const [isTyping, setIsTyping] = useState(false)
+    const [isTyping, setIsTyping] = useState(false);
     //req id
     const [reqId, setReqId] = useState('');
-    const textMessageInput = useRef(null)
+    //textarea input ref
+    const textMessageInput=useRef(null);
     /**
      * 
      * @param {event} e 
@@ -23,7 +24,7 @@ function  MessageForm(props) {
     };
     connection.onmessage = (m) => {
         const res = JSON.parse(m.data);
-        
+        const payload = JSON.parse(res.payload);
         console.log('res:',JSON.parse(m.data));
         if(res.opcode === 1002) {
            const messageId = getMessageId(res.req_id, res.req_time);
@@ -39,7 +40,7 @@ function  MessageForm(props) {
                }));
                return;
            }
-           const payload = JSON.parse(res.payload);
+           
            const myId = getLastMessageId() + 1;
            store.dispatch(messageReducer.actions.messageAdded({
                message: {
@@ -111,12 +112,12 @@ function  MessageForm(props) {
             if(connection.readyState === 1){
               connection.send(JSON.stringify(message));
               console.log('message sent:', JSON.stringify(message));
+              textMessageInput.current.value  = null;
+              document.querySelector('.textareaInput').vlaue = null;
+              setIsTyping(false);
               clearInterval(connecting);
             }
           }, 100);
-
-        
-       
     };
     /**
      * Microphone
@@ -141,6 +142,36 @@ function  MessageForm(props) {
             </span>
         );
     };
+    const [isCtrlPressed, setIsCtrlPressed] = useState(false);
+    //when user clicks on the enter key 
+    const enterKeyDownHandler = (e) => {
+        
+        const keyCode = e.keyCode || e.which;
+        console.log(isCtrlPressed, keyCode);
+        if(keyCode === 13 && !e.shiftKey) {
+            e.preventDefault();
+            e.stopPropagation();
+            const clickButton = document.querySelector('.text_message_form_submit');
+            if(clickButton) {
+                clickButton.click();
+                
+                return;
+            }
+            
+            return;
+        }
+    };
+
+    //reset ctrl when keyup happened
+    const ctrlKeyUpHandler = (e) => {
+        const keyCode = e.keyCode || e.which;
+        if(keyCode === 17) {
+            e.stopPropagation();
+            e.preventDefault();
+            setIsCtrlPressed(false);
+            return;
+        }
+    };
     return (<>
         <div className="formMessageContainer">
             <div className="emoji">
@@ -150,8 +181,9 @@ function  MessageForm(props) {
                 <Paperclip size={30} />
             </div>
             <form className="textMessageForm" onSubmit={onSubmitMessage}>
-                <textarea rows={1} ref={textMessageInput} placeholder="write your message ..." onChange={textMessageOnChanged}></textarea>
-                 {isTyping ? <button type="submit">Send</button> :null}
+                <textarea required onKeyDown={enterKeyDownHandler} onKeyUp = {ctrlKeyUpHandler} className="textareaInput"
+                rows={1} ref={textMessageInput} placeholder="write your message ..." onChange={textMessageOnChanged}></textarea>
+                 {isTyping ? <button className="text_message_form_submit" type="submit">Send</button> :null}
             </form>
             <div className="voiceButtonContainer">
                  {!isTyping ? <button onMouseDown={onMicActive} onMouseUp={onMicInactive}
