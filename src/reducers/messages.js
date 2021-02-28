@@ -22,6 +22,14 @@ const messageReducer = createSlice({
             const index = messages.findIndex((item) => item.id === action.payload.id);
             messages[index].isFailed = action.payload.isFailed;
             messages[index].isPending = false;
+        },
+        changeMessageStatus: (messages, action) => {
+            const index = messages.findIndex(item => item.id === action.payload.id);
+            messages[index].isPending = action.payload.message.isPending;
+            messages[index].isSent = action.payload.message.isSent;
+            messages[index].isDelivered = action.payload.message.isDelivered;
+            messages[index].isFailed = action.payload.message.isFailed;
+            
         }
     }
 });

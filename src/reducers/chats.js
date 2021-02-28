@@ -33,12 +33,14 @@ const chatReducer = createSlice({
             chats.isActive = true;
             chats.avatar = action.payload.avatar;
             chats.name = action.payload.name;
-            
+           
+       
         },
         chatStatusEdit: (chats, action) => {
             chats.chatStatus = action.payload.chatStatus;
         },
         userLoggedIn: (chats, action) => {
+            console.log(action.payload);
             chats.userId = action.payload.userId;
         }
     }

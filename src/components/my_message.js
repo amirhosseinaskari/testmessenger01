@@ -70,7 +70,7 @@ function  MyMessage(props) {
     return (<>
         <div className="message myMessage" key={props.code}>
             <div className="message_body">
-              <p>{props.message.body}</p>
+              <p>{props.message.info.body}</p>
               <div onClick={onDeleteHandler} className="delete_message_icon">
                   <Trash size={20} />
                   {deleteModal}

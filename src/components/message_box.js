@@ -2,7 +2,7 @@ import MessageForm from './message_form'
 import ChatroomBody from './chatroom_body';
 import '../assets/css/messageBox.scss';
 import {connect} from 'react-redux'
-import {store} from '../store/store'
+import {store, getChatId} from '../store/store'
 import ChatroomHeader from './chatroom_header';
 /**
  * @component
@@ -11,7 +11,7 @@ import ChatroomHeader from './chatroom_header';
  */
 function MessageBox(props){
     const chatStatus = store.getState().entities.chats.chatStatus;
-    
+    const chatId = getChatId();
    
    const result = (chatStatus) => { switch (chatStatus) {
         case 1:
@@ -20,7 +20,7 @@ function MessageBox(props){
             return <div className="chatroomBodyWrapper"> 
                         <ChatroomHeader />
                         <ChatroomBody userId={props.user.userId} store={store} />
-                        <MessageForm />
+                        <MessageForm chatId = {chatId} />
                    </div> 
         case 3:
             return <div className="emptyMessageBox">Loading Messages is Failed</div>

@@ -34,10 +34,10 @@ function MessageListItem(props){
               avatar: props.avatar,
               bio: '',
               name: props.name,
-              chatId: chatId,
+              chatId: props.chatId,
               last_message: {
                   from: "",
-                  chat: "",
+                  chat: props.chatId,
                   id: "",
                   temp_id: "",
                   body: "",
